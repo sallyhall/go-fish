@@ -1,6 +1,8 @@
 var handSize = 10;
 var cardsInSuit = 13;
 
+var cardTemplate = _.template($("#cardTmpl").html());
+
 function Game(){
   this.deck = [];
   this.players = [];
@@ -130,6 +132,7 @@ function Player(name){
     }
   };
   this.displayHand = function(){
+    $(".hand").html("");
     var text = "";
     _.each(this.hand, function (card,idx) {
       var num = idx+1;
@@ -151,6 +154,7 @@ function Player(name){
             cardText = card.number;
           }
       text+="\n "+num+": "+cardText +" of "+card.suit;
+      $(".hand").append(cardTemplate(card));
     });
     return text;
   };
@@ -160,4 +164,6 @@ function Player(name){
 function Card(suit,number){
   this.suit = suit;
   this.number = number;
+  this.suitcode = cardCodes[suit];
+  this.cardcode = cardCodes[number];
 }
