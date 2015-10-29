@@ -1,4 +1,5 @@
-var handSize = 7;
+var handSize = 4;
+var cardsInSuit = 13;
 
 function Game(){
   this.deck = [];
@@ -20,6 +21,8 @@ function Game(){
         player.takeTurn(game);
       });
     }
+    var winner = this.findWinner();
+    console.log("The game has ended and "+winner.name+" is the winner with "+ winner.score +" pairs.");
   };
   this.deal = function () {
     var game = this;
@@ -33,12 +36,17 @@ function Game(){
     this.deck = _.shuffle(this.deck);
   };
   this.fillCards = function () {
-    for(var i=0;i<13;i++){
+    for(var i=0;i<cardsInSuit;i++){
       this.deck.push(new Card("clubs",i));
       this.deck.push(new Card("hearts",i));
       this.deck.push(new Card("diamonds",i));
       this.deck.push(new Card("spades",i));
     }
+  };
+  this.findWinner = function(){
+    return _.max(this.players, function(player){
+      return player.score;
+    });
   };
 }
 
@@ -47,17 +55,14 @@ function Player(name){
   this.hand = [];
   this.score = 0;
   this.takeTurn = function (game) {
-    var cards =[];
+    console.log(this.name+"'s turn:'");
     if(game.playing){
       this.removePairs(game);
-      _.each(this.hand, function (card) {
-        cards.push(card.number +" of "+card.suit);
-      });
-      var card = prompt(
-        "Hi, " + this.name + "which card index do you want to ask for?"+
-        "Your cards are:" + cards
-      );
-      var personName = prompt("which person do you want to ask?");
+      var card = Number(prompt(
+        "Hi, " + this.name + ". Which card number do you want to ask for?"+
+        " Your cards are:" + this.displayHand()
+      ))-1;
+      var personName = prompt("Which person do you want to ask?");
       var person = _.filter(game.players,function (player) {
         return player.name === personName;
       });
@@ -109,6 +114,31 @@ function Player(name){
     if (gotPair>0){
       this.takeTurn(game);
     }
+  };
+  this.displayHand = function(){
+    var text = "";
+    _.each(this.hand, function (card,idx) {
+      var num = idx+1;
+      var cardText = "";
+      switch (card.number){
+          case 0:
+            cardText = "Ace";
+            break;
+          case 1:
+            cardText = "King";
+            break;
+          case 11:
+            cardText = "Jack";
+            break;
+          case 12:
+            cardText = "Queen";
+            break;
+          default:
+            cardText = card.number;
+          }
+      text+="\n "+num+": "+cardText +" of "+card.suit;
+    });
+    return text;
   };
 
 }
