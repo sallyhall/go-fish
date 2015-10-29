@@ -1,5 +1,5 @@
-var handSize = 10;
-var cardsInSuit = 13;
+var handSize = 5;
+var cardsInSuit = 4;
 
 var cardTemplate = _.template($("#cardTmpl").html());
 
