@@ -1,5 +1,5 @@
-
-
+var defaultPic = "https://dl.dropboxusercontent.com/u/2828114/Fish.png";
+var cardBack = "<div class='card'>&#x1F0A0</div>";
 var cardCodes={
   spades:"1F0A",
   hearts:"1F0B",

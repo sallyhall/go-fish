@@ -2,6 +2,7 @@ var handSize = 5;
 var cardsInSuit = 4;
 
 var cardTemplate = _.template($("#cardTmpl").html());
+var playerTemplate = _.template($("#playerTmpl").html());
 
 function Game(){
   this.deck = [];
@@ -33,6 +34,9 @@ function Game(){
         player.hand.push(game.deck.pop());
       });
     });
+    _.each(game.players,function (player) {
+      player.displayHandDown();
+    });
   };
   this.shuffle = function () {
     this.deck = _.shuffle(this.deck);
@@ -52,17 +56,20 @@ function Game(){
   };
 }
 
-function Player(name){
+function Player(name, imgURL){
   this.name = name;
+  this.image = imgURL || defaultPic;
   this.hand = [];
   this.score = 0;
+  $(".players").append(playerTemplate(this));
   this.takeTurn = function (game) {
-    console.log(this.name+"'s turn:'");
+    // console.log(this.name+"'s turn:'");
+    this.displayHand();
     if(game.playing){
       this.removePairs(game);
       var card = Number(prompt(
-        "Hi, " + this.name + ". Which card number do you want to ask for?"+
-        " Your cards are:" + this.displayHand()
+        "Hi, " + this.name + ". Which card number do you want to ask for?"
+  //      +" Your cards are:" + this.displayHand()
       ))-1;
       var personName = prompt("Which person do you want to ask?");
       var person = _.filter(game.players,function (player) {
@@ -132,33 +139,19 @@ function Player(name){
     }
   };
   this.displayHand = function(){
-    $(".hand").html("");
-    var text = "";
+    var handID = "#"+this.name+"Hand";
+    $(handID).html("");
     _.each(this.hand, function (card,idx) {
-      var num = idx+1;
-      var cardText = "";
-      switch (card.number){
-          case 0:
-            cardText = "Ace";
-            break;
-          case 1:
-            cardText = "King";
-            break;
-          case 11:
-            cardText = "Jack";
-            break;
-          case 12:
-            cardText = "Queen";
-            break;
-          default:
-            cardText = card.number;
-          }
-      text+="\n "+num+": "+cardText +" of "+card.suit;
-      $(".hand").append(cardTemplate(card));
+      $(handID).append(cardTemplate(card));
     });
-    return text;
   };
-
+  this.displayHandDown = function(){
+    var handID = "#"+this.name+"Hand";
+    $(handID).html("");
+    _.each(this.hand, function (card,idx) {
+      $(handID).append(cardBack);
+    });
+  };
 }
 
 function Card(suit,number){
