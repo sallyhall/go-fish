@@ -1,4 +1,4 @@
-var handSize = 4;
+var handSize = 10;
 var cardsInSuit = 13;
 
 function Game(){
@@ -94,10 +94,24 @@ function Player(name){
   this.removePairs = function (game) {
     var numCards = this.hand.length;
     this.hand = _.chain(this.hand)
-    .groupBy(function(card){return card.number;})
-    .filter(function(group){return group.length%2===1;})
-    .flatten()
-    .value();
+      .groupBy(function(card){return card.number;})
+      .filter(function(group){return group.length%2===1;})
+      .flatten()
+      .value();
+    // var scoreDiff = ((numCards-this.hand.length)/2);
+    var threes = _.chain(this.hand)
+      .groupBy(function(card){return card.number;})
+      .filter(function(group){return group.length===3;})
+      .value();
+    if(threes.length>0){
+      console.log("you had three "+threes[0][1].number+"s");
+      this.hand = _.chain(this.hand)
+        .groupBy(function(card){return card.number;})
+        .filter(function(group){return group.length!=3;})
+        .flatten()
+        .value();
+      this.hand.push(threes[0][1]);
+    }
     var scoreDiff = ((numCards-this.hand.length)/2);
     this.score+= scoreDiff;
     if (scoreDiff>0){
