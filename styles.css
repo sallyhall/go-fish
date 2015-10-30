@@ -1,10 +1,16 @@
-body {
-  font-size: 6em; }
-
 .card {
   text-align: center;
-  display: inline-block; }
+  display: inline-block;
+  font-size: 12em; }
 
 .hand {
   width: 70%;
   margin: auto; }
+
+.instructions {
+  width: 50%;
+  margin: 30px auto;
+  text-align: center; }
+
+button {
+  display: inline-block; }

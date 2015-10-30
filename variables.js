@@ -1,3 +1,9 @@
+var handSize = 5;
+var cardsInSuit = 4;
+
+var cardTemplate = _.template($("#cardTmpl").html());
+var playerTemplate = _.template($("#playerTmpl").html());
+
 var defaultPic = "https://dl.dropboxusercontent.com/u/2828114/Fish.png";
 var cardBack = "<div class='card'>&#x1F0A0</div>";
 var cardCodes={

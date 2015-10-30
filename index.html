@@ -3,6 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
     <link rel="stylesheet" href="bower_components/material-design-lite/material.css">
+    <script src="bower_components/material-design-lite/material.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="styles.css">
     <title></title>
     <script type="text/html" id="cardTmpl">
@@ -11,23 +12,23 @@
       </div>
     </script>
     <script type="text/html" id="playerTmpl">
-    <style>
-    .demo-card-image.mdl-card#<%=name%>{
-      width: 256px;
-      height: 256px;
-      background: url(<%= image %>) center / cover;
-    }
-    .demo-card-image > .mdl-card__actions {
-      height: 52px;
-      padding: 16px;
-      background: rgba(0, 0, 0, 0.2);
-    }
-    .demo-card-image__filename {
-      color: #fff;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    </style>
+      <style>
+      .demo-card-image.mdl-card#<%=name%>{
+        width: 256px;
+        height: 256px;
+        background: url(<%= image %>) center / cover;
+      }
+      .demo-card-image > .mdl-card__actions {
+        height: 52px;
+        padding: 16px;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .demo-card-image__filename {
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      </style>
       <div class="mdl-grid player">
         <div class="mdl-cell mdl-cell--2-col playerPic">
           <div class="demo-card-image mdl-card mdl-shadow--2dp" id="<%=name%>">
@@ -37,7 +38,13 @@
             </div>
           </div>
         </div>
-        <div class="mdl-cell mdl-cell--10-col hand" id=<%= name %>Hand>
+        <div class="mdl-cell mdl-cell--8-col hand" id=<%= name %>Hand>
+
+        </div>
+        <div class="mdl-cell mdl-cell--2-col ">
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent hidden startTurn" id="<%=name%>StartTurn">
+            Start Turn
+          </button>
         </div>
       </div>
     </script>
@@ -47,6 +54,28 @@
 
     </header>
     <div class="instructions">
+
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="addPlayer">
+        Add Player
+      </button>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" disabled id="startGame">
+        Begin Game
+      </button>
+      <form class="hidden">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" id="playerName" />
+          <label class="mdl-textfield__label" for="playerName">Player Name</label>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input " type="text" id="playerURL" />
+          <label class="mdl-textfield__label " for="playerURL">Player Image URL</label>
+        </div>
+      </form>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent hidden" id="submit">
+        Submit
+      </button>
+
+
 
     </div>
     <div class="players">
