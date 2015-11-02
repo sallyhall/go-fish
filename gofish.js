@@ -5,51 +5,52 @@ function Game() {
     this.turnPlayer = "";
     this.askPlayer = "";
     this.askCard = "";
-    this.init = function(people) {
-        var game = this;
-        game.fillCards();
-        game.shuffle();
-        _.each(people, function(player) {
-            player.playGoFish(game);
-        });
-        game.deal();
-        this.players[0].showStartButton();
-    };
-    this.deal = function() {
-        var game = this;
-        _(handSize).times(function() {
-            _.each(game.players, function(player) {
-                player.hand.push(game.deck.pop());
-            });
-        });
-        _.each(game.players, function(player) {
-            player.displayHandDown();
-        });
-    };
-    this.shuffle = function() {
-        this.deck = _.shuffle(this.deck);
-    };
-    this.fillCards = function() {
-        for (var i = 0; i < cardsInSuit; i++) {
-            this.deck.push(new Card("clubs", i));
-            this.deck.push(new Card("hearts", i));
-            this.deck.push(new Card("diamonds", i));
-            this.deck.push(new Card("spades", i));
-        }
-    };
-    this.findWinner = function() {
-        return _.max(this.players, function(player) {
-            return player.score;
-        });
-    };
-    this.nextplayer = function(player) {
-      var num = _.indexOf(this.players, player)+1;
-      if (num===this.players.length){
-        num=0;
-      }
-      return this.players[num];
-    };
 }
+
+Game.prototype.init = function(people) {
+    var game = this;
+    game.fillCards();
+    game.shuffle();
+    _.each(people, function(player) {
+        player.playGoFish(game);
+    });
+    game.deal();
+    this.players[0].showStartButton();
+};
+Game.prototype.deal = function() {
+    var game = this;
+    _(handSize).times(function() {
+        _.each(game.players, function(player) {
+            player.hand.push(game.deck.pop());
+        });
+    });
+    _.each(game.players, function(player) {
+        player.displayHandDown();
+    });
+};
+Game.prototype.shuffle = function() {
+    this.deck = _.shuffle(this.deck);
+};
+Game.prototype.fillCards = function() {
+    for (var i = 0; i < cardsInSuit; i++) {
+        this.deck.push(new Card("clubs", i));
+        this.deck.push(new Card("hearts", i));
+        this.deck.push(new Card("diamonds", i));
+        this.deck.push(new Card("spades", i));
+    }
+};
+Game.prototype.findWinner = function() {
+    return _.max(this.players, function(player) {
+        return player.score;
+    });
+};
+Game.prototype.nextplayer = function(player) {
+  var num = _.indexOf(this.players, player)+1;
+  if (num===this.players.length){
+    num=0;
+  }
+  return this.players[num];
+};
 
 function Player(name, imgURL) {
     this.name = name;
@@ -101,6 +102,7 @@ Player.prototype.takeTurn = function(game) {
 Player.prototype.removePairs = function(game) {
     var numCards = this.hand.length;
     var pairsFound = "";
+
     //set twos to be the cards that are pairs from the hand
     var twos =  _.chain(this.hand).groupBy(function(card) {
         return card.number;
@@ -114,12 +116,14 @@ Player.prototype.removePairs = function(game) {
       }).filter(function(group) {
           return group.length % 2 === 1;
       }).flatten().value();
+
       _.each(twos,function (pair) {
         _.each(pair,function (card) {
           pairsFound+=cardTemplate(card);
         })
       });
     }
+
     //set threes to be the cards that are triples from the hand
     var threes = _.chain(this.hand).groupBy(function(card) {
         return card.number;
@@ -133,6 +137,7 @@ Player.prototype.removePairs = function(game) {
         }).filter(function(group) {
             return group.length != 3;
         }).flatten().value();
+
         //put one card of the threes back in the hand
         this.hand.push(threes[0].pop());
         _.each(threes,function (pair) {
@@ -158,20 +163,23 @@ Player.prototype.removePairs = function(game) {
     }
     return scoreDiff;
 };
+
 Player.prototype.ask = function() {
     game = gamePage.thisGame;
     card = game.askCard;
     askplayer = game.askPlayer;
     player = this;
     var cardIndex = askplayer.hasCard(card);
+
+    //player doesn't have the card, go fishing
     if (cardIndex === -1) {
         player.goFishing(game);
     } else {
         //get the card from their hand
         player.hand.push(askplayer.hand.splice(cardIndex, 1)[0]);
-        // player.removePairs(game);
     }
     var gotPair = player.removePairs(game);
+    //wait to take the next turn so you can see tthe card you drew
     if (gotPair > 0) {
         setTimeout( function () {
           player.takeTurn(game);
@@ -179,6 +187,7 @@ Player.prototype.ask = function() {
           ,delayInterval);
     } else {
       player.displayHandDown();
+      //wait to take the next turn so you can see the card you drew
       setTimeout( function () {
         game.nextplayer(player).showStartButton();
       }
@@ -194,6 +203,7 @@ function Card(suit, number) {
     this.suitcode = cardCodes[suit];
     this.cardcode = cardCodes[number];
 }
+
 var gamePage = {
     init: function(argument) {
         gamePage.events();
@@ -202,10 +212,10 @@ var gamePage = {
     events: function() {
         $("#addPlayer").on("click", function() {
             $("form").removeClass("hidden");
-            $("#submit").removeClass("hidden");
             $("#addPlayer").addClass("hidden");
         });
-        $("#submit").on("click", function(event) {
+        $("input").on("keypress",function (event){
+          if(event.charCode===13){
             event.preventDefault();
             var newPlayer = new Player($("#playerName").val(),
                 $("#playerURL").val());
@@ -215,7 +225,10 @@ var gamePage = {
             if (gamePage.thisGame.players.length > 1) {
                 $("#startGame").removeClass("hidden");
             }
+          }
         });
+
+
         $("#startGame").on("click", function(event) {
             gamePage.thisGame.init();
         });
