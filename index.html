@@ -34,16 +34,20 @@
           <div class="demo-card-image mdl-card mdl-shadow--2dp" id="<%=name%>">
             <div class="mdl-card__title mdl-card--expand"></div>
             <div class="mdl-card__actions">
-              <span class="demo-card-image__filename"><%= name %></span>
+              <span class="demo-card-image__filename"><%= name %><span class="score" id="<%=name%>score">Pairs: <%=score %></span></span>
             </div>
           </div>
         </div>
         <div class="mdl-cell mdl-cell--8-col hand" id=<%= name %>Hand>
-
         </div>
         <div class="mdl-cell mdl-cell--2-col ">
           <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent hidden startTurn" id="<%=name%>StartTurn">
             Start Turn
+          </button>
+        </div>
+        <div class="mdl-cell mdl-cell--2-col ">
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent hidden goFishing" id="<%=name%>GoFishing">
+            Go Fishing
           </button>
         </div>
       </div>
@@ -51,14 +55,14 @@
   </head>
   <body>
     <header>
-
+      <h1>Go Fish</h1>
     </header>
     <div class="instructions">
 
       <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="addPlayer">
-        Add Player
+        Add Players
       </button>
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" disabled id="startGame">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent hidden"  id="startGame">
         Begin Game
       </button>
       <form class="hidden">

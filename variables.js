@@ -1,5 +1,6 @@
-var handSize = 5;
-var cardsInSuit = 4;
+var handSize = 7;
+var cardsInSuit = 13;
+var delayInterval = 1000;
 
 var cardTemplate = _.template($("#cardTmpl").html());
 var playerTemplate = _.template($("#playerTmpl").html());

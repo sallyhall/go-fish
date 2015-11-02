@@ -1,7 +1,3 @@
-body{
-
-}
-
 .card{
   text-align: center;
   display: inline-block;
@@ -13,11 +9,20 @@ body{
   margin:auto;
 }
 .instructions{
-  width:50%;
+  display: inline-block;
+  width: 100%;
   margin:30px auto;
   text-align: center;
 }
 
 button{
   display: inline-block;
+}
+
+.score{
+  float:right;
+}
+
+h1{
+  text-align: center;
 }
