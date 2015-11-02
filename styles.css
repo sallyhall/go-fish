@@ -1,3 +1,6 @@
+body {
+  background-color: aqua; }
+
 .card {
   text-align: center;
   display: inline-block;
@@ -21,3 +24,9 @@ button {
 
 h1 {
   text-align: center; }
+
+header {
+  background-color: #ff4081;
+  color: white;
+  margin-top: 0;
+  padding: 20px; }
