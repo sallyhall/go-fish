@@ -69,7 +69,7 @@ Player.prototype.hasCard = function(card) {
 Player.prototype.goFishing = function(game) {
     var card = game.deck.pop();
     this.hand.push(card);
-    $(".instructions").html("You drew a "+cardTemplate(card));
+    $(".instructions").html("You went fishing and caught a "+cardTemplate(card));
 };
 Player.prototype.displayHand = function() {
     var handID = "#" + this.name + "Hand";
